@@ -1,0 +1,27 @@
+{
+  "title": "中油綠能研發大樓新建工程釋疑資訊平台",
+  "backup_created_at": "2026-10-28T13:42:37+08:00",
+  "data_snapshot_date": "2026-10-27",
+  "source_commit": "1bee03c4e890a2a72185ccfd8b7bc7f203560d6a",
+  "format": "Static GitHub Pages project; website files at repository root",
+  "counts": {
+    "rfi": 157,
+    "replied": 138,
+    "pending": 18,
+    "verify": 1,
+    "change_details": 98,
+    "resource_entries": 19
+  },
+  "publicly_published": false,
+  "includes_real_project_data": true,
+  "excludes": [
+    "Git history",
+    "hosting identity and access control",
+    "credentials",
+    "browser localStorage",
+    "original XLSX files",
+    "external Drive document contents",
+    "NotebookLM contents"
+  ],
+  "verification": "SHA256SUMS contains all other files in this snapshot"
+}

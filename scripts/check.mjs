@@ -1,0 +1,23 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {normalize,dateValue,daysWaiting,THEMES} from '../data-model.js';
+const data=JSON.parse(fs.readFileSync(new URL('../data.json',import.meta.url),'utf8'));
+const rows=normalize(data.bundles),rfi=rows.filter(r=>r.kind==='rfi');
+assert.equal(rfi.length,157);assert.equal(rows.filter(r=>r.kind==='change').length,98);
+assert.equal(new Set(rfi.map(r=>r.key)).size,157,'RFI keys must be unique');
+assert.deepEqual(Object.fromEntries(['pending','replied','verify'].map(s=>[s,rfi.filter(r=>r.status===s).length])),{pending:18,replied:138,verify:1});
+assert.equal(rfi.find(r=>r.status==='verify').code,'RFI-JC-030');
+assert.equal(dateValue('115.5.11 補加大管道間'),'2026-05-11');
+assert.equal(dateValue('115.7.'),'2026-07');assert.equal(dateValue('115.2.30'),'');assert.equal(dateValue('-'),'');assert.equal(dateValue('115.10.22'),'2026-10-22');
+assert.equal(daysWaiting({received:'2026-10-22'},'2026-10-27'),5);assert.equal(daysWaiting({received:'2026-07'},'2026-10-27'),null);
+assert.ok(rfi.every(r=>THEMES.some(t=>t.id===r.theme)));
+assert.equal(rfi.find(r=>r.code==='RFI-FC-068').row,77);
+assert.ok(rfi.find(r=>r.code==='RFI-FC-055').files.some(f=>f.name.includes('用印')));
+assert.ok(rfi.find(r=>r.code==='RFI-JC-079').files.length>0);
+for(const r of rows)for(const f of r.files){const u=new URL(f.url);assert.equal(u.protocol,'https:');assert.ok(['drive.google.com','docs.google.com'].includes(u.hostname))}
+const resources=JSON.parse(fs.readFileSync(new URL('../resources.json',import.meta.url),'utf8'));assert.equal(resources.files.length,19);
+assert.ok(!rfi.some(r=>r.code==='RFI-FC-010'),'Placeholder row excluded');
+const updated=structuredClone(data.bundles),pendingRaw=updated[0].sheets[0].rows.find(row=>Object.values(row).includes('RFI-FC-068'));
+pendingRaw.C77='115.10.27';pendingRaw.F77='驗證更新：已回覆';
+const recalculated=normalize(updated).filter(r=>r.kind==='rfi');assert.equal(recalculated.filter(r=>r.status==='pending').length,17);assert.equal(recalculated.filter(r=>r.status==='replied').length,139);
+console.log('PASS: 157 unique RFI, 98 change details, status/date/attachment/source checks, 19 resources.');

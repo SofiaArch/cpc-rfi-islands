@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f2e9"><meta name="description" content="中油綠能研發大樓新建工程釋疑資訊平台，以六角微縮城市探索建築、機電釋疑與設計變更。">
+<title>中油綠能研發大樓新建工程釋疑資訊平台</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="header">
+ <a class="brand" href="#" aria-label="回到釋疑島首頁"><span class="brand-mark">C<span>＋</span></span><span><strong>中油綠能研發大樓</strong><small>新建工程釋疑資訊平台</small></span></a>
+ <nav aria-label="主要導覽"><button class="nav active" id="cityView">探索釋疑島</button><button class="nav" id="listView">釋疑總覽 <span class="nav-count" id="navCount"></span></button><button class="nav" id="resourceView">圖說資料庫 <span>↗</span></button></nav>
+ <button class="source-status" id="sourceView"><span class="status-dot"></span><span id="sourceLabel">資料版本 2026.10.27</span><span class="small-chevron">⌄</span></button>
+ <button class="icon-button mobile-menu" id="mobileMenu" aria-label="開啟釋疑總覽">☰</button>
+</header>
+<main id="main">
+ <section class="experience" aria-label="釋疑島互動城市">
+  <div class="hero">
+   <div class="eyebrow"><i></i> CPC GREEN ENERGY · RFI ATLAS</div>
+   <h1>讓我們攻略<br><span>每一座問題島吧!</span></h1>
+   <p class="intro">從一座小島，走進一項工程議題。<br>把建築與機電的釋疑，連成共同的進度。</p>
+   <div class="stats" aria-label="RFI統計"><button data-stat="all"><strong id="statTotal">—</strong><span>RFI 總數</span></button><button data-stat="pending"><strong class="amber" id="statPending">—</strong><span>待回覆</span></button><button data-stat="replied"><strong class="green" id="statReplied">—</strong><span>已回覆</span></button></div>
+   <div class="completion"><span>回覆進度 <b id="rate">—</b></span><div><i id="rateBar"></i></div><small id="verifyNote"></small></div>
+   <button class="primary-button" id="pendingView">查看待回覆事項 <span>↗</span></button>
+   <div class="hero-foot"><span class="mini-hex"></span>9 個主題島嶼，1 座協作城市</div>
+  </div>
+  <div class="world-wrap" id="worldWrap">
+   <div class="map-top"><span><i class="live-line"></i> 一項釋疑，一起向前。</span><div class="map-actions"><button id="toggleSpeech" class="speech-toggle" aria-label="開關人物隨機提問" aria-pressed="true">💬 提問 開</button><button id="helpView" aria-label="操作說明">?</button></div></div>
+   <canvas id="world" aria-label="可旋轉縮放的六角微縮模型城市。可用下方主題按鈕操作。"></canvas>
+   <div id="speechLayer" class="speech-layer" aria-label="人物的隨機釋疑提問" aria-live="off" hidden></div>
+   <div id="islandLabels" class="island-labels" aria-label="主題島嶼"></div>
+   <div class="world-loader" id="worldLoader">正在拼起釋疑城市…</div>
+   <div class="map-caption"><span class="caption-line"></span><span>GREEN ENERGY<br><b>一起，把工程做好。</b></span></div>
+   <div class="map-controls"><button id="pauseAnimation" aria-label="暫停城市動畫" title="暫停城市動畫">Ⅱ</button><span></span><button id="rotateLeft" aria-label="向左旋轉">↶</button><button id="resetView" aria-label="回到全景">⌂</button><span></span><button id="zoomOut" aria-label="縮小">−</button><button id="zoomIn" aria-label="放大">＋</button></div>
+   <div class="map-hint">拖曳旋轉 <span>·</span> 滾輪縮放 <span>·</span> 點選小島探索</div>
+   <div class="map-legend"><span><i class="legend-dot pending"></i>血量＝已處理／全部問題</span><span><i class="legend-dot replied"></i>已處理＝已回覆</span></div>
+  </div>
+ </section>
+ <section class="activity-strip" aria-label="最新待回覆"><div class="activity-title"><span class="pulse-dot"></span><strong>值得關注</strong><small>最新待回覆</small></div><div id="recentItems" class="recent-items"></div><button id="allRecent" class="text-button">全部事項 ↗</button></section>
+ <footer><span>2135 <i>/</i> 中油綠能研發大樓新建工程</span><span>狀態依管理表記載 · 已回覆不代表已結案</span><button id="aboutView">關於平台 ↗</button></footer>
+</main>
+<div class="drawer-overlay" id="drawerOverlay" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="釋疑總覽" hidden>
+ <div class="drawer-header"><div><span class="eyebrow" id="drawerEyebrow">RFI EXPLORER</span><h2 id="drawerTitle">釋疑總覽</h2></div><button class="icon-button" id="closeDrawer" aria-label="關閉面板">✕</button></div>
+ <div id="listPanel">
+  <label class="search-box"><span>⌕</span><input id="search" type="search" placeholder="搜尋編號、主旨、回覆、圖號…" aria-label="搜尋釋疑"></label>
+  <div class="filter-line"><select id="categoryFilter" aria-label="主題篩選"><option value="all">全部主題</option></select><select id="sourceFilter" aria-label="來源管理表"><option value="all">全部管理表</option><option value="建築">建築管理表</option><option value="機電">機電管理表</option></select><button id="exportCsv" class="icon-button" aria-label="匯出篩選結果CSV" title="匯出CSV">↓</button></div>
+  <div class="segmented" id="kindFilter"><button data-kind="rfi" class="selected">RFI 釋疑</button><button data-kind="change">審查／需求變更</button></div>
+  <div class="status-filters" id="statusFilters"><button class="selected" data-status="all">全部</button><button data-status="pending">待回覆</button><button data-status="replied">已回覆</button><button data-status="verify">待核對</button><button data-status="changed">列入變更</button><button data-status="starred">☆ 關注</button></div>
+  <div class="result-meta"><span id="resultCount" aria-live="polite"></span><select id="sortFilter" aria-label="排序"><option value="latest">來文日期：新到舊</option><option value="oldest">來文日期：舊到新</option><option value="code">依項次編號</option></select></div>
+  <div id="resultList" class="result-list"></div>
+ </div>
+ <div id="resourcePanel" hidden></div>
+ <div id="sourcePanel" hidden></div>
+</aside>
+<dialog id="detailDialog" aria-labelledby="detailTitle"><div id="detailContent"></div></dialog>
+<dialog id="helpDialog"><button class="dialog-close icon-button" id="closeHelp" aria-label="關閉說明">✕</button><span class="eyebrow">WELCOME TO THE ISLANDS</span><h2>一座看得懂進度的城市。</h2><p>每個六角島嶼對應一項工程主題。點選島嶼查看清單；名牌顯示全部問題與已處理數。血量＝已處理／全部問題，處理越多，血量越滿；待核對尚未計入血量。HP 面板位於模型兩側，小螢幕改列於模型下方。中心島顯示全案總覽。</p><p>人物會隨機同時提出兩則釋疑，約顯示 5 秒。點選泡泡可看完整內容；右上「提問」可開關顯示。</p><div class="help-grid"><span>↔<b>拖曳旋轉</b><small>換個角度，看見全貌</small></span><span>＋<b>滾輪縮放</b><small>走近模型、查看細節</small></span><span>⌕<b>搜尋與篩選</b><small>用編號或關鍵字找議題</small></span></div><p class="subtle">主題由原表備註與關鍵字整理，屬導覽分類。原始專業、日期、回覆、變更與來源列號保留於各筆詳情。未設定契約回覆期限，因此等待天數不等於逾期天數。</p><button class="primary-button" id="beginExplore">開始探索 ↗</button></dialog>
+<div class="toast" id="toast" role="status"></div>
+<input id="excelInput" type="file" accept=".xlsx" multiple hidden>
+<script type="module" src="app.js"></script>
+</body></html>
